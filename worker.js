@@ -7,17 +7,23 @@ const { parentPort } = require("worker_threads");
 let info = [];
 parentPort.on("message", (e) => {
   if (e.paid) {
+    console.log("====================================");
     let bub = info.find(({ id }) => id == e.sub);
     let ai = info.indexOf(bub);
     info.splice(ai, 1);
     console.log(info);
   } else if (!e.paid && !e.deleted) {
+    console.log("====================================");
     info.push(e);
     console.log(info);
   } else if (e.deleted) {
-    let bub = info.find(({ id }) => id == e.sub);
-    let ai = info.indexOf(bub);
-    info.splice(ai, 1);
+    console.log("====================================");
+    for(i=0;i<30;i++){
+      let bub = info.find(({ idd }) => idd == e.sub);
+      let ai = info.indexOf(bub);
+      info.splice(ai, 1);
+    }
+   
     console.log(info);
   }
 });

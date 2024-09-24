@@ -5,6 +5,7 @@ const cors = require("cors");
 const app = express();
 const webPush = require("web-push");
 const bodyParser = require("body-parser");
+const port = process.env.PORT || 3000;
 var timeandsub;
 const {
   symmetricCrypto,
@@ -28,9 +29,10 @@ webPush.setVapidDetails(
 const worker = new Worker("./worker.js");
 app.post("/subscribe", (req, res) => {
   // Get pushSubscription object
-  if (!req.body.paid) {
+  if (!req.body.paid && !req.body.deleted) {
     timeandsub = {
       id: req.body.id,
+      idd: req.body.idd,
       sub: req.body.sub,
       day: req.body.day,
       month: req.body.month,
@@ -78,7 +80,9 @@ app.post("/verify", function (req, res) {
     res.send("Sent");
   }
 });
-
-app.listen(3000, function () {
-  console.log("server is running on port 3000");
+app.get("/", (req, res) => {
+  res.status().send(200);
+});
+app.listen(port, function () {
+  console.log(`server is running on port ${port}`);
 });
