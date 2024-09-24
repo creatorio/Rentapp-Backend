@@ -30,7 +30,7 @@ app.post("/subscribe", (req, res) => {
   // Get pushSubscription object
   if (!req.body.paid) {
     timeandsub = {
-      tenant: req.body.tenant,
+      id: req.body.id,
       sub: req.body.sub,
       day: req.body.day,
       month: req.body.month,
@@ -41,6 +41,10 @@ app.post("/subscribe", (req, res) => {
     res.send("Sent");
   }
   if (req.body.paid) {
+    worker.postMessage(req.body);
+    res.send("Sent");
+  }
+  if (req.body.deleted) {
     worker.postMessage(req.body);
     res.send("Sent");
   }

@@ -7,12 +7,17 @@ const { parentPort } = require("worker_threads");
 let info = [];
 parentPort.on("message", (e) => {
   if (e.paid) {
-    let bub = info.find(({ tenant }) => tenant == e.sub);
+    let bub = info.find(({ id }) => id == e.sub);
     let ai = info.indexOf(bub);
     info.splice(ai, 1);
     console.log(info);
-  } else if (!e.paid) {
+  } else if (!e.paid && !e.deleted) {
     info.push(e);
+    console.log(info);
+  } else if (e.deleted) {
+    let bub = info.find(({ id }) => id == e.sub);
+    let ai = info.indexOf(bub);
+    info.splice(ai, 1);
     console.log(info);
   }
 });
